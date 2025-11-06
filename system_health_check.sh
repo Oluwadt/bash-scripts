@@ -29,6 +29,21 @@ check_network () {
     echo
 }
 
+check_thresholds () {
+    cpu_load=$(uptime | awk -F'load average: ' '{ print $2 }' | awk '{print $1}' | tr -d ',')
+    cpu_limit=1.5
+
+    disk_usage=$(df / | tail -1 | awk '{ print $5 }' | tr -d '%')
+    disk_limit=90
+
+    if (( $(echo "$cpu_load > $cpu_limit" | bc -l) )); then
+        echo "⚠ High CPU Load: $cpu_load"
+    fi
+    if [ "$disk_usage" -gt "$disk_limit" ]; then
+        echo "⚠ High Disk Usage: $disk_usage"
+    fi
+}
+
 LOG_FILE="/var/log/system_health.log"
 
 {
