@@ -55,6 +55,7 @@ check_cpu
 check_memory
 check_disk
 check_network
+check_thresholds
 
 echo "============================================"
 echo " Report Generated Successfully."
