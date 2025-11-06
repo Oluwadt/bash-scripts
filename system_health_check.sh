@@ -8,4 +8,12 @@ check_cpu() {
     echo
 }
 
+# Get Memory Usage
+check_memory () {
+    echo "Menory Usage"
+    free -h | awk '/Mem:/ {print "Used: "$3" | Free: "$4" | Total: "$2}'
+    echo
+}
+
 check_cpu
+check_memory
