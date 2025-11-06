@@ -13,4 +13,11 @@ echo "[$(date +%Y-%m-%d_%H-%M-%S)] Starting backup..." >> "$LOG_fILE"
 
 tar -czf "$BACKUP_FILE" "${SOURCE_DIRS[@]}" 2>> "$LOG_FILE"
 
+if [ $? -eq 0 ]; then
+    echo "[$(date)] Backup successful: $BACKUP_FILE" >> "$LOG_FILE"    
+else
+    echo "[$(date)] Backup FAILED!" >> "$LOG_FILE"
+fi
+
 echo "[$(date)] Backup process completed." >> "$LOG_FILE"
+
