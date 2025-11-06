@@ -29,6 +29,9 @@ check_network () {
     echo
 }
 
+LOG_FILE="/var/log/system_health.log"
+
+{
 echo "====================================================="
 echo " SYSTEM HEALTH REPORT - $(date)"
 echo "====================================================="
@@ -41,3 +44,4 @@ check_network
 echo "============================================"
 echo " Report Generated Successfully."
 echo "============================================"
+} >> "$LOG_FILE"
