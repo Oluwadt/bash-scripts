@@ -29,7 +29,15 @@ check_network () {
     echo
 }
 
+echo "====================================================="
+echo " SYSTEM HEALTH REPORT - $(date)"
+echo "====================================================="
+
 check_cpu
 check_memory
 check_disk
 check_network
+
+echo "============================================"
+echo " Report Generated Successfully."
+echo "============================================"
