@@ -21,13 +21,21 @@ else
 fi
 
 echo "$(date) Cleaning backups older than $RETENTION_DAYS days..." >> "$LOG_FILE"
-find "$BACKUP_DIR" -name "backup_*.tar.gz" -type f -mtime +$RETENTION_DAYS -exec rm -f {} \; 2>> "$LOG_FILE"
+OLD_BACKUPS=$(find "$BACKUP_DIR" -name "backup_*.tar.gz" -type f -mtime +$RETENTION_DAYS)
 
-if [ $? -eq 0 ]; then
-    echo "[$(date)] Cleanup complete." >> "$LOG_FILE"
+if [ -n $OLD_BACKUPS ]; then
+    echo "Deleting the following old backups..." >> "$LOG_FILE"
+    echo $OLD_BACKUPS >> "$LOG_FILE"
+    find "$BACKUP_DIR" -name "backup_*.tar.gz" -type f -mtime +$RETENTION_DAYS -exec rm -f {} +
+
+    if find "$BACKUP_DIR" -type f -mtime +$DAYS_TO_KEEP | grep -q .; then
+        echo "⚠️  Some old backups could not be deleted."
+    else
+        echo "✅ All old backups deleted successfully."
+    fi
 else
-    echo "[$(date)] Cleanup encountered an error." >> "$LOG_FILE"
+    echo "[$(date)] No old backups for cleanup." >> "$LOG_FILE"
 fi
 
 echo "[$(date)] Backup process completed." >> "$LOG_FILE"
-echo
+echo "--------------------------------------------------" >> "$LOG_FILE"
