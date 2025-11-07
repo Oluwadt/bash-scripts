@@ -29,9 +29,9 @@ if [ -n $OLD_BACKUPS ]; then
     find "$BACKUP_DIR" -name "backup_*.tar.gz" -type f -mtime +$RETENTION_DAYS -exec rm -f {} +
 
     if find "$BACKUP_DIR" -type f -mtime +$DAYS_TO_KEEP | grep -q .; then
-        echo "⚠️  Some old backups could not be deleted."
+        echo "Some old backups could not be deleted."
     else
-        echo "✅ All old backups deleted successfully."
+        echo "All old backups deleted successfully."
     fi
 else
     echo "[$(date)] No old backups for cleanup." >> "$LOG_FILE"
