@@ -1,5 +1,5 @@
 #!/bin/bash
-# Service Uptime Monitor Script
+# Multi-Service Uptime Monitor Script
 
 SERVICES_FILE="services.txt"
 LOG_FILE="service_check.log"
@@ -19,3 +19,15 @@ check_service () {
         log_message "$SERVICE is DOWN"
     fi
 }
+
+while true; do
+    echo "Checking services at $(date '+%H:%M:%S')" >> "$LOG_FILE"
+    while IFS= read -r SERVICE || [ -n "$SERVICE" ]; do
+        SERVICE=$(echo "$SERVICE" | tr -d '\r')
+        [[ -z "$SERVICE" || "$SERVICE" =~ ^# ]] && continue
+        check_service "$SERVICE"
+    done < $SERVICES_FILE
+    echo "Sleeping for $CHECK_INTERVAL seconds..."
+    sleep "$CHECK_INTERVAL"
+done
+
