@@ -17,7 +17,16 @@ check_service () {
         log_message "$SERVICE is UP"
     else
         log_message "$SERVICE is DOWN"
+        send_alert "$SERVICE"
     fi
+}
+
+send_alert () {
+    local SERVICE=$1
+    SUBJECT="ALERT: $Service is DOWN"
+    MESSAGE="Service $Service is unreachable as of $(date)"
+    echo "$MESSAGE" | mail -s "$SUBJECT" "$EMAIL"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Email alert sent for $SERVICE" >> "$LOG_FILE"
 }
 
 while true; do
