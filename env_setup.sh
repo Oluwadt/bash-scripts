@@ -15,3 +15,17 @@ mkdir -p ~/projects/my_project
 
 # Navigate to project directory
 cd ~/projects/my_project
+
+# Initialize Git repository
+git init
+
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment
+source venv/bin/activate
+
+# Install required Python packages
+pip install -r requirements.txt
+
+echo "Environment setup complete!"
